@@ -53,12 +53,27 @@ Object.assign(dict,{
 'المعهد موجود في Campus Universitaire بمنزل عبد الرحمان، بنزرت 7035.':{fr:'L’institut se trouve au Campus Universitaire de Menzel Abderrahmen, Bizerte 7035.',en:'The institute is located at the Campus Universitaire in Menzel Abderrahmen, Bizerte 7035.'},'هذه الصفحة تقدم صورة عملية عن المجالات المذكورة في الدليل، بينما يبقى العرض الرسمي للسنة الجامعية هو المرجع النهائي للتخصصات المفتوحة.':{fr:"Cette page présente les domaines mentionnés dans le guide. L'offre officielle de l'année universitaire reste la référence finale pour les spécialités ouvertes.",en:'This page presents the fields mentioned in the guide. The official academic-year offering remains the final reference for available programs.'},'من أكثر المجالات ارتباطًا بالأنظمة الكهربائية والتحكم والأتمتة. من المسارات التي تظهر في منشورات قسم الهندسة الكهربائية: AII، EI وELNI.':{fr:"Un domaine lié aux systèmes électriques, au contrôle et à l'automatisation. Les parcours cités dans les publications du département sont notamment AII, EI et ELNI.",en:'A field closely related to electrical systems, control and automation. Programs mentioned in department publications include AII, EI and ELNI.'},'مجال يهتم بتكنولوجيا المعلومات والبرمجيات والأنظمة الرقمية، مع تكوينات تطبيقية مرتبطة بحاجيات سوق الشغل.':{fr:"Domaine consacré aux technologies de l'information, aux logiciels et aux systèmes numériques, avec des formations appliquées liées au marché du travail.",en:'A field focused on information technology, software and digital systems, with applied training linked to labor-market needs.'},'مجال يرتبط بالعمليات الصناعية والتحويلية ومتابعة الأنظمة والعمليات التقنية.':{fr:'Domaine lié aux procédés industriels et de transformation ainsi qu’au suivi des systèmes et opérations techniques.',en:'A field related to industrial and transformation processes and monitoring technical systems and operations.'},'تكوينات في التصرف والمجالات الاقتصادية والإدارية، مع تطبيقات مرتبطة بالمؤسسة وسوق الشغل.':{fr:'Formations en gestion et domaines économiques et administratifs, avec des applications liées à l’entreprise et au marché du travail.',en:'Programs in management, economics and administration, with applications related to organizations and the labor market.'},'بيئة ISET تعتمد على الجانب التطبيقي، وتظهر في منشورات قسم الهندسة الكهربائية أمثلة لمشاريع PFE مرتبطة بالأتمتة، Arduino، الأنظمة الصناعية، القياس والتحكم وغيرها.':{fr:"L'environnement ISET privilégie la pratique. Les publications du département Génie électrique présentent des PFE liés à l'automatisation, Arduino, systèmes industriels, mesure et contrôle.",en:'ISET emphasizes practical learning. Electrical engineering publications show final projects involving automation, Arduino, industrial systems, measurement and control.'},'الهدف ليس حفظ الدروس فقط، بل بناء مهارات تقنية قابلة للاستعمال في المشاريع.':{fr:'L’objectif n’est pas seulement de mémoriser les cours, mais de développer des compétences techniques utilisables dans des projets.',en:'The goal is not only to memorize lessons, but to build technical skills that can be used in projects.'},'مشاريع وتداريب يمكن أن تكون مرتبطة بمؤسسات صناعية وتقنية حسب المسار.':{fr:'Les projets et stages peuvent être liés à des entreprises industrielles et technologiques selon le parcours.',en:'Projects and internships may be connected to industrial and technology companies depending on the program.'},'السنة النهائية تتوج بمشروع ختم الدراسات وفق المسار والتوجيه البيداغوجي.':{fr:'La dernière année se termine par un projet de fin d’études selon le parcours et l’encadrement pédagogique.',en:'The final year concludes with a final-year project according to the program and academic supervision.'},'لا. UGTE منظمة نقابية طلابية، بينما ISET مؤسسة التعليم العالي. دور UGTE طلابي ونقابي، ودور المعهد إداري وبيداغوجي.':{fr:"Non. L'UGTE est une organisation syndicale étudiante, tandis que l'ISET est un établissement d'enseignement supérieur. L'UGTE a un rôle étudiant et syndical; l'institut a un rôle administratif et pédagogique.",en:'No. UGTE is a student union, while ISET is a higher-education institution. UGTE has a student and union role; the institute has an administrative and academic role.'},'لا. هي صفحة دليل طلابي. للمعلومات الرسمية المتغيرة، اعتمد على موقع المعهد وإعلانات الإدارة.':{fr:"Non. Il s'agit d'un guide étudiant. Pour les informations officielles qui changent, consultez le site de l'institut et les annonces de l'administration.",en:'No. This is a student guide. For changing official information, rely on the institute website and administration announcements.'},'نعم، اضغط على زر Google Maps في هذه الصفحة لفتح الموقع والمسار على هاتفك.':{fr:'Oui, cliquez sur le bouton Google Maps pour ouvrir la localisation et l’itinéraire sur votre téléphone.',en:'Yes, click the Google Maps button to open the location and route on your phone.'},'دليل طلابي إعلامي لمساعدة الطلبة. المعلومات الإدارية المتغيرة يجب تأكيدها دائمًا من الجهة الرسمية.':{fr:'Guide étudiant informatif. Les informations administratives variables doivent toujours être confirmées auprès de la source officielle.',en:'Informational student guide. Changing administrative information should always be confirmed with the official source.'},'هذا الموقع ليس بديلاً عن إدارة المعهد أو ديوان الخدمات الجامعية.':{fr:"Ce site ne remplace ni l'administration de l'institut ni l'Office des œuvres universitaires.",en:'This site does not replace the institute administration or the Office of University Services.'}
 });
 
+const originalTextNodes=new Map();
 function translate(lang){
- document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
- const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
- nodes.forEach(n=>{const raw=n.nodeValue, key=raw.trim();if(!key||!dict[key])return;const v=lang==='ar'?key:(dict[key][lang]||key);n.nodeValue=raw.replace(key,v)});
- document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(translations[lang]&&translations[lang][k]) el.textContent=translations[lang][k]});
- // titles can be translated from original title saved below
+ document.documentElement.lang=lang;
+ document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+ nodes.forEach(n=>{
+   const raw=n.nodeValue||'';
+   if(!originalTextNodes.has(n)) originalTextNodes.set(n,raw);
+   const original=originalTextNodes.get(n);
+   const key=original.trim();
+   if(!key || !dict[key]) return;
+   const value=lang==='ar'?key:(dict[key][lang]||key);
+   const leading=original.match(/^\s*/)?.[0]||'';
+   const trailing=original.match(/\s*$/)?.[0]||'';
+   n.nodeValue=leading+value+trailing;
+ });
+ document.querySelectorAll('[data-i18n]').forEach(el=>{
+   const k=el.dataset.i18n;
+   if(translations[lang] && translations[lang][k]) el.textContent=translations[lang][k];
+ });
  localStorage.setItem('ugte-lang',lang);
 }
 function setupLanguage(){
@@ -77,8 +92,20 @@ function setupLanguage(){
  }
 }
 function setupTheme(){
- const btn=document.querySelector('.theme-toggle');if(!btn)return;const saved=localStorage.getItem('ugte-theme');const prefers=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;const dark=saved?saved==='dark':prefers;document.body.classList.toggle('dark',dark);btn.textContent=dark?'🌙':'☀️';
- btn.addEventListener('click',()=>{const d=document.body.classList.toggle('dark');localStorage.setItem('ugte-theme',d?'dark':'light');btn.textContent=d?'🌙':'☀️'});
+ const btn=document.querySelector('.theme-toggle');
+ if(!btn)return;
+ const saved=localStorage.getItem('ugte-theme');
+ const prefers=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+ let dark=saved ? saved==='dark' : prefers;
+ function apply(isDark){
+   document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+   document.body.classList.toggle('dark',isDark);
+   btn.textContent=isDark?'☀️':'🌙';
+   btn.setAttribute('aria-label',isDark?'Activer le mode clair / Light mode':'Activer le mode sombre / Dark mode');
+   btn.title=isDark?'Mode clair':'Mode sombre';
+ }
+ apply(dark);
+ btn.addEventListener('click',()=>{dark=!dark;localStorage.setItem('ugte-theme',dark?'dark':'light');apply(dark)});
 }
 function setupNav(){const toggle=document.querySelector('.nav-toggle'),nav=document.querySelector('.main-nav');if(toggle&&nav)toggle.addEventListener('click',()=>nav.classList.toggle('open'));const current=document.body.dataset.page;document.querySelectorAll('.main-nav a[data-page]').forEach(a=>{if(a.dataset.page===current)a.classList.add('active')});}
 function setupTabs(){
