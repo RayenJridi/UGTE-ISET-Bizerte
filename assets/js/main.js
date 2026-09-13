@@ -77,19 +77,29 @@ function translate(lang){
  localStorage.setItem('ugte-lang',lang);
 }
 function setupLanguage(){
- const sel=document.querySelector('.lang-select');if(!sel)return;
- const originalTitle=document.title;sel.value=localStorage.getItem('ugte-lang')||'ar';
- // Store original title on the element so switching back is exact.
- sel.dataset.originalTitle=originalTitle;
- sel.addEventListener('change',()=>{
-  const lang=sel.value;
-  const map=titleMap[sel.dataset.originalTitle];if(map)document.title=lang==='ar'?sel.dataset.originalTitle:(map[lang]||sel.dataset.originalTitle);
+ const selects=[...document.querySelectorAll('.lang-select')];
+ if(!selects.length)return;
+ const originalTitle=document.title;
+ const savedLang=localStorage.getItem('ugte-lang')||'ar';
+
+ function applyLanguage(lang){
+  // Update the UI immediately — no refresh/navigation is needed.
   translate(lang);
- });
- if(sel.value!=='ar'){
-  const map=titleMap[originalTitle];if(map)document.title=map[sel.value]||originalTitle;
-  translate(sel.value);
+  const map=titleMap[originalTitle];
+  if(map) document.title=lang==='ar'?originalTitle:(map[lang]||originalTitle);
+  selects.forEach(s=>{s.value=lang; s.setAttribute('aria-label',lang==='ar'?'اللغة':'Language');});
+  // Force a visual repaint on browsers that delay select/DOM rendering.
+  requestAnimationFrame(()=>document.documentElement.classList.add('lang-ready'));
  }
+
+ selects.forEach(sel=>{
+  sel.dataset.originalTitle=originalTitle;
+  sel.value=savedLang;
+  const handler=()=>applyLanguage(sel.value);
+  sel.addEventListener('change',handler);
+  sel.addEventListener('input',handler);
+ });
+ applyLanguage(savedLang);
 }
 function setupTheme(){
  const btn=document.querySelector('.theme-toggle');
