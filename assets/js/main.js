@@ -1,9 +1,9 @@
 (function(){
 'use strict';
 const translations={
-ar:{progress:'تقدم الملف',reset:'إعادة التعيين',home:'الرئيسية',ugte:'UGTE',iset:'ISET بنزرت',registration:'الترسيم',scholarship:'المنحة',housing:'السكن'},
-fr:{progress:'Progression du dossier',reset:'Réinitialiser',home:'Accueil',ugte:'UGTE',iset:'ISET Bizerte',registration:'Inscription',scholarship:'Bourse',housing:'Logement'},
-en:{progress:'File progress',reset:'Reset',home:'Home',ugte:'UGTE',iset:'ISET Bizerte',registration:'Registration',scholarship:'Scholarship',housing:'Housing'}
+ar:{progress:'تقدم الملف',reset:'إعادة التعيين',home:'الرئيسية',ugte:'UGTE',iset:'ISET بنزرت',registration:'الترسيم',scholarship:'المنحة',housing:'السكن','dashboard-kicker':'لوحة الطالب الذكية','dashboard-title':'لوحة قيادة الطالب','dashboard-subtitle':'من هنا تعرف وين وصلت، شنوّة ناقصك، وشنوّة تعمل بعد.','overall-progress':'التقدم العام','starting':'نبدأوا خطوة بخطوة','next-step':'خطوتك القادمة','live':'مباشر','start-registration':'ابدأ بملف الترسيم','start-registration-desc':'أكمل الوثائق واحدة واحدة، والتقدم يتحدث وحده.','open-file':'فتح الملف →','continue':'متابعة →','quick-actions':'⚡ وصول سريع','one-click':'بضغطة واحدة','iset-info':'المعهد والمعلومات','guide':'Guide ISET','guide-info':'الوصول والخدمات','documents':'الوثائق','documents-info':'ترسيم، منحة، سكن','contacts':'الاتصال','contacts-info':'أرقام وروابط مهمة','smart-tip':'💡 نصيحة ذكية','tip-default':'كمّل الملفات بالترتيب. كل خطوة تعملها هنا تبقى محفوظة في هاتفك حتى بعد غلق الموقع.','complete':'مكتمل','continue-next':'واصل، بقيت شوية!','all-done':'🎉 ممتاز! كملت الملفات الكل.','done':'مكتمل'},
+fr:{progress:'Progression du dossier',reset:'Réinitialiser',home:'Accueil',ugte:'UGTE',iset:'ISET Bizerte',registration:'Inscription',scholarship:'Bourse des nouveaux étudiants',housing:'Logement','dashboard-kicker':'TABLEAU DE BORD INTELLIGENT','dashboard-title':'Tableau de bord étudiant','dashboard-subtitle':'Voyez votre progression, ce qui manque et votre prochaine étape.','overall-progress':'Progression générale','starting':'On commence étape par étape','next-step':'Votre prochaine étape','live':'EN DIRECT','start-registration':'Commencez par l’inscription','start-registration-desc':'Cochez les documents un par un, la progression se met à jour automatiquement.','open-file':'Ouvrir le dossier →','continue':'Continuer →','quick-actions':'⚡ Accès rapide','one-click':'En un clic','iset-info':'Institut et informations','guide':'Guide ISET','guide-info':'Accès et services','documents':'Documents','documents-info':'Inscription, bourse, logement','contacts':'Contact','contacts-info':'Numéros et liens utiles','smart-tip':'💡 Conseil intelligent','tip-default':'Complétez les dossiers dans l’ordre. Votre progression reste enregistrée sur votre téléphone.','complete':'Terminé','continue-next':'Continuez, il ne reste plus beaucoup !','all-done':'🎉 Excellent ! Tous les dossiers sont terminés.','done':'Terminé'},
+en:{progress:'File progress',reset:'Reset',home:'Home',ugte:'UGTE',iset:'ISET Bizerte',registration:'Registration',scholarship:'New student scholarship',housing:'Housing','dashboard-kicker':'SMART STUDENT DASHBOARD','dashboard-title':'Student Dashboard','dashboard-subtitle':'See your progress, what is missing, and what to do next.','overall-progress':'Overall progress','starting':'Let’s go step by step','next-step':'Your next step','live':'LIVE','start-registration':'Start with registration','start-registration-desc':'Check documents one by one and your progress updates automatically.','open-file':'Open file →','continue':'Continue →','quick-actions':'⚡ Quick access','one-click':'One click','iset-info':'Institute & information','guide':'ISET Guide','guide-info':'Access & services','documents':'Documents','documents-info':'Registration, scholarship, housing','contacts':'Contact','contacts-info':'Useful numbers & links','smart-tip':'💡 Smart tip','tip-default':'Complete your files in order. Your progress stays saved on your phone.','complete':'Completed','continue-next':'Keep going, almost there!','all-done':'🎉 Excellent! All files are completed.','done':'Completed'}
 };
 const dict={
 'دليل ومرافقة الطالب':{fr:'Guide et accompagnement étudiant',en:'Student guide & support'},'الرئيسية':{fr:'Accueil',en:'Home'},'من نحن؟':{fr:'À propos',en:'About us'},'ISET بنزرت':{fr:'ISET Bizerte',en:'ISET Bizerte'},'الترسيم':{fr:'Inscription',en:'Registration'},'المنحة':{fr:'Bourse',en:'Scholarship'},'السكن':{fr:'Logement',en:'Housing'},
@@ -75,6 +75,7 @@ function translate(lang){
    if(translations[lang] && translations[lang][k]) el.textContent=translations[lang][k];
  });
  localStorage.setItem('ugte-lang',lang);
+ window.dispatchEvent(new CustomEvent('ugte:language'));
 }
 function setupLanguage(){
  const selects=[...document.querySelectorAll('.lang-select')];
@@ -101,6 +102,58 @@ function setupLanguage(){
  });
  applyLanguage(savedLang);
 }
+
+function setupDashboard(){
+ const dashboard=document.getElementById('dashboard'); if(!dashboard)return;
+ const configs=[
+  {page:'tarsim',pct:'dash-tarsim-pct',bar:'dash-tarsim-bar',count:'dash-tarsim-count',link:'tarsim.html',label:'registration'},
+  {page:'sakan',pct:'dash-sakan-pct',bar:'dash-sakan-bar',count:'dash-sakan-count',link:'sakan.html',label:'housing'},
+  {page:'mancha',pct:'dash-mancha-pct',bar:'dash-mancha-bar',count:'dash-mancha-count',link:'mancha.html',label:'scholarship'}
+ ];
+ function getProgress(page){
+  const key='ugte-checklist-v2-'+page;
+  let saved={}; try{saved=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+  const keys=Object.keys(saved).filter(k=>saved[k]);
+  // The exact total is stored by each checklist page in this lightweight cache.
+  const totalCache=Number(localStorage.getItem('ugte-total-'+page)||0);
+  const fallback={tarsim:8,sakan:8,mancha:25}[page]||0;
+  const total=totalCache||fallback;
+  return {done:keys.length,total,p:total?Math.round(keys.length/total*100):0};
+ }
+ function render(){
+  const lang=localStorage.getItem('ugte-lang')||'ar', t=translations[lang]||translations.ar;
+  let sumDone=0,sumTotal=0,items=[];
+  configs.forEach(c=>{
+   const x=getProgress(c.page); sumDone+=x.done;sumTotal+=x.total;
+   const pct=document.getElementById(c.pct),bar=document.getElementById(c.bar),count=document.getElementById(c.count);
+   if(pct)pct.textContent=x.p+'%'; if(bar)bar.style.width=x.p+'%'; if(count)count.textContent=x.done+' / '+x.total;
+   items.push({...c,...x});
+  });
+  const overall=sumTotal?Math.round(sumDone/sumTotal*100):0;
+  const op=document.getElementById('overall-percent'), ring=document.querySelector('.score-ring'),status=document.getElementById('overall-status');
+  if(op)op.textContent=overall+'%';
+  if(ring)ring.style.background=`conic-gradient(var(--teal) ${overall*3.6}deg,#dfe8eb ${overall*3.6}deg)`;
+  if(status)status.textContent=overall===100?t['all-done']:(overall>0?t['continue-next']:t['starting']);
+  const next=items.find(x=>x.p<100) || items[0];
+  const box=document.getElementById('next-step-content'),link=document.getElementById('next-step-link');
+  if(box&&link){
+   if(overall===100){box.innerHTML='<strong>'+t['all-done']+'</strong><p>'+t['complete']+'</p>';link.href='iset.html';link.textContent=t['guide']+' →';}
+   else {
+    const names={tarsim:t.registration,sakan:t.housing,mancha:t.scholarship};
+    box.innerHTML='<strong>'+names[next.page]+'</strong><p>'+next.done+' / '+next.total+' '+t['complete']+'</p>';
+    link.href=next.link;link.textContent=t['open-file'];
+   }
+  }
+  const tip=document.getElementById('smart-tip-text');
+  if(tip)tip.textContent=overall===100?t['all-done']:(overall>=66?t['continue-next']:t['tip-default']);
+ }
+ // Checklist pages publish their total once loaded; dashboard also learns it by reading DOM only when available.
+ configs.forEach(c=>localStorage.setItem('ugte-total-'+c.page,localStorage.getItem('ugte-total-'+c.page)||'0'));
+ window.addEventListener('ugte:language',render);
+ window.addEventListener('storage',render);
+ render();
+}
+
 function setupTheme(){
  const btn=document.querySelector('.theme-toggle');
  if(!btn)return;
@@ -134,11 +187,11 @@ function setupFaq(){document.querySelectorAll('.faq-item').forEach(item=>{const 
 function setupChecklist(){
  const current=document.body.dataset.page||'page',boxes=[...document.querySelectorAll('.doc-item .check')];if(!boxes.length)return;
  const key='ugte-checklist-v2-'+current;let saved={};try{saved=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
- const count=document.getElementById('checklist-count'),bar=document.getElementById('checklist-progress');
+ const count=document.getElementById('checklist-count'),bar=document.getElementById('checklist-progress'); localStorage.setItem('ugte-total-'+current,String(boxes.length));
  function update(){const done=boxes.filter(b=>b.classList.contains('checked')).length,total=boxes.length,p=total?Math.round(done/total*100):0;if(count)count.textContent=done+' / '+total+' • '+p+'%';if(bar)bar.style.width=p+'%';}
  function setBox(b,c){b.classList.toggle('checked',c);b.setAttribute('aria-checked',c?'true':'false');}
  boxes.forEach((b,i)=>{if(saved['item-'+i])setBox(b,true);const toggle=()=>{saved['item-'+i]=!saved['item-'+i];setBox(b,saved['item-'+i]);localStorage.setItem(key,JSON.stringify(saved));update()};b.addEventListener('click',toggle);b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}})});
  const reset=document.getElementById('reset-checklist');if(reset)reset.addEventListener('click',()=>{saved={};localStorage.removeItem(key);boxes.forEach(b=>setBox(b,false));update()});update();
 }
-document.addEventListener('DOMContentLoaded',()=>{setupNav();setupTabs();setupFaq();setupChecklist();setupTheme();setupLanguage();});
+document.addEventListener('DOMContentLoaded',()=>{setupNav();setupTabs();setupFaq();setupChecklist();setupTheme();setupDashboard();setupLanguage();});
 })();
