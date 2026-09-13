@@ -132,7 +132,7 @@ function setupDashboard(){
   const overall=sumTotal?Math.round(sumDone/sumTotal*100):0;
   const op=document.getElementById('overall-percent'), ring=document.querySelector('.score-ring'),status=document.getElementById('overall-status');
   if(op)op.textContent=overall+'%';
-  if(ring)ring.style.background=`conic-gradient(var(--teal) ${overall*3.6}deg,#dfe8eb ${overall*3.6}deg)`;
+  if(ring){ring.style.setProperty('--p',overall+'%');ring.style.background='conic-gradient(var(--teal) '+(overall*3.6)+'deg, var(--line) '+(overall*3.6)+'deg)';}
   if(status)status.textContent=overall===100?t['all-done']:(overall>0?t['continue-next']:t['starting']);
   const next=items.find(x=>x.p<100) || items[0];
   const box=document.getElementById('next-step-content'),link=document.getElementById('next-step-link');
