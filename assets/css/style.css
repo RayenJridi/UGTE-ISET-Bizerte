@@ -26,3 +26,58 @@ body.dark .paper2{background:var(--paper2)}body.dark .folder-tabs{background:#0e
 [dir="ltr"] .quote{border-right:0;border-left:4px solid var(--gold)}[dir="ltr"] .criteria-list li{border-right:0;border-left:4px solid var(--gold)}[dir="ltr"] .faq-q{text-align:left}
 @media(max-width:900px){.site-tools{margin-inline-start:auto}.main-nav{top:72px}.site-tools{order:1}.nav-toggle{order:2}.brand{order:0}}
 @media(max-width:620px){.site-tools{gap:5px}.lang-select{min-width:88px;padding:0 5px}.theme-toggle{width:36px}.checklist-toolbar{top:72px}}
+
+/* ===== V3 polished theme system ===== */
+html{scroll-behavior:smooth}
+html[data-theme="dark"]{color-scheme:dark}
+html[data-theme="light"]{color-scheme:light}
+body{min-height:100vh;transition:background-color .25s ease,color .25s ease}
+.theme-toggle{display:grid;place-items:center;transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.theme-toggle:active{transform:scale(.94)}
+
+html[data-theme="dark"] body,
+body.dark{background:#07111c;color:#edf4f8}
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .contact-card,
+html[data-theme="dark"] .folder,
+html[data-theme="dark"] .hero-card,
+html[data-theme="dark"] .info-table,
+html[data-theme="dark"] .doc-gallery figure,
+html[data-theme="dark"] .faq-item,
+html[data-theme="dark"] .check-section,
+html[data-theme="dark"] .dept-card,
+html[data-theme="dark"] .checklist-toolbar,
+html[data-theme="dark"] .notice:not(.danger),
+html[data-theme="dark"] .criteria-list li,
+html[data-theme="dark"] .paper2 .card,
+html[data-theme="dark"] .folder-tabs,
+body.dark .card,body.dark .contact-card,body.dark .folder,body.dark .hero-card,
+body.dark .info-table,body.dark .doc-gallery figure,body.dark .faq-item,body.dark .check-section,
+body.dark .dept-card,body.dark .checklist-toolbar,body.dark .criteria-list li{background:#101d2b;color:#edf4f8;border-color:#26394a}
+html[data-theme="dark"] .paper2,body.dark .paper2{background:#0b1724}
+html[data-theme="dark"] .txt span,html[data-theme="dark"] .small,
+html[data-theme="dark"] .section-head p,html[data-theme="dark"] .dept-card p,
+body.dark .txt span,body.dark .small{color:#aebdca}
+html[data-theme="dark"] .doc-item{border-color:#26394a}
+html[data-theme="dark"] .folder-tabs button{color:#9fb0bd}
+html[data-theme="dark"] .folder-tabs button.active{background:#101d2b;color:#fff;border-color:#25a8a1}
+html[data-theme="dark"] .faq-q{color:#f5f9fb}
+html[data-theme="dark"] .info-table td{border-color:#26394a}
+html[data-theme="dark"] .info-table td:first-child{color:#83ddd7}
+html[data-theme="dark"] .reset-checklist{background:#152536;color:#fff;border-color:#344b5e}
+html[data-theme="dark"] .progress-track{background:#263846}
+html[data-theme="dark"] .link-pill{background:#123d40;color:#d9fffb;border-color:#276d6a}
+html[data-theme="dark"] .notice{background:#332c15;color:#f4e7ae;border-color:#a98a25}
+html[data-theme="dark"] .notice.danger{background:#351b1b;color:#ffd0ca;border-color:#a63f37}
+html[data-theme="dark"] .doc-item:focus-within{background:#102e31}
+html[data-theme="dark"] .site-footer{background:#030912}
+
+/* Make checklist progress look like a real dashboard */
+.checklist-toolbar{box-shadow:0 10px 30px rgba(18,35,48,.08);border-radius:16px}
+.progress-track{height:12px;border-radius:999px;background:#e6ecef;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
+.progress-bar{position:relative;overflow:hidden;background:linear-gradient(90deg,#0f8f8c,#35b8ad,#d6a83d);box-shadow:0 0 16px rgba(15,143,140,.22)}
+.progress-bar:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.32) 50%,transparent 80%);animation:progressShine 2.2s linear infinite}
+@keyframes progressShine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.check{transition:all .18s ease}
+.doc-item:hover .check{transform:scale(1.06)}
+.check.checked{box-shadow:0 0 0 4px rgba(15,143,140,.12)}
