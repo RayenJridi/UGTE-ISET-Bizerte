@@ -80,7 +80,8 @@ function setupLanguage(){
  const selects=[...document.querySelectorAll('.lang-select')];
  if(!selects.length)return;
  const originalTitle=document.title;
- const savedLang=localStorage.getItem('ugte-lang')||'ar';
+ localStorage.setItem('ugte-lang','ar');
+const savedLang='ar';
 
  function applyLanguage(lang){
   // Update the UI immediately — no refresh/navigation is needed.
@@ -117,7 +118,7 @@ function setupTheme(){
  apply(dark);
  btn.addEventListener('click',()=>{dark=!dark;localStorage.setItem('ugte-theme',dark?'dark':'light');apply(dark)});
 }
-function setupNav(){const toggle=document.querySelector('.nav-toggle'),nav=document.querySelector('.main-nav');if(toggle&&nav)toggle.addEventListener('click',()=>nav.classList.toggle('open'));const current=document.body.dataset.page;document.querySelectorAll('.main-nav a[data-page]').forEach(a=>{if(a.dataset.page===current)a.classList.add('active')});}
+function setupNav(){const toggle=document.querySelector('.nav-toggle'),nav=document.querySelector('.main-nav'),backdrop=document.querySelector('.nav-backdrop');if(!toggle||!nav)return;const setOpen=(open)=>{nav.classList.toggle('open',open);if(backdrop)backdrop.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));document.body.classList.toggle('menu-open',open)};toggle.setAttribute('aria-expanded','false');toggle.addEventListener('click',()=>setOpen(!nav.classList.contains('open')));if(backdrop)backdrop.addEventListener('click',()=>setOpen(false));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});const current=document.body.dataset.page;document.querySelectorAll('.main-nav a[data-page]').forEach(a=>{if(a.dataset.page===current)a.classList.add('active')});}
 function setupTabs(){
  document.querySelectorAll('.folder').forEach(folder=>{
   const buttons=folder.querySelectorAll('.folder-tabs button'),panes=folder.querySelectorAll('.pane');
@@ -153,10 +154,12 @@ const pageData=[
  {key:'tarsim',url:'tarsim.html',icon:'📝',ar:'الترسيم',fr:'Inscription',en:'Registration',desc:{ar:'خطوات ووثائق الترسيم الجامعي',fr:'Étapes et documents d’inscription',en:'Registration steps and required documents'},words:'ترسيم تسجيل inscription registration وثائق documents bac'},
  {key:'mancha',url:'mancha.html',icon:'💰',ar:'المنحة',fr:'Bourse',en:'Scholarship',desc:{ar:'شروط ووثائق ملف المنحة الجامعية',fr:'Conditions et documents du dossier de bourse',en:'Scholarship conditions and documents'},words:'منحة بورص bourse scholarship argent argent'},
  {key:'sakan',url:'sakan.html',icon:'🏠',ar:'السكن',fr:'Logement',en:'Housing',desc:{ar:'إجراءات ووثائق المبيت الجامعي',fr:'Démarches et documents du logement universitaire',en:'University housing steps and documents'},words:'سكن مبيت foyer logement housing hébergement'},
- {key:'resto',url:'resto.html',icon:'🍽️',ar:'الريستو',fr:'Restaurant universitaire',en:'University restaurant',desc:{ar:'أوقات الوجبات وتذاكر المطعم الجامعي',fr:'Horaires des repas et tickets',en:'Meal times and restaurant tickets'},words:'ريستو مطعم restaurant repas meal ticket تذكرة 11:30 14:00 17:00 19:00'}
+ {key:'resto',url:'resto.html',icon:'🍽️',ar:'الريستو',fr:'Restaurant universitaire',en:'University restaurant',desc:{ar:'أوقات الوجبات وتذاكر المطعم الجامعي',fr:'Horaires des repas et tickets',en:'Meal times and restaurant tickets'},words:'ريستو مطعم restaurant repas meal ticket تذكرة 11:30 14:00 17:00 19:00'},
+ {key:'clubs',url:'clubs.html',icon:'🎓',ar:'الأندية',fr:'Clubs',en:'Clubs',desc:{ar:'الأندية والمراكز الطلابية والأنشطة',fr:'Clubs et activités étudiantes',en:'Student clubs and activities'},words:'الأندية نوادي clubs asec enactus ieee 4c tunivisions cao نشاط حياة طلابية'},
+ {key:'about-platform',url:'about.html',icon:'ℹ️',ar:'عن المنصة',fr:'À propos de la plateforme',en:'About the platform',desc:{ar:'هدف المنصة وتطويرها وطرق التواصل',fr:'Objectif, développement et contact',en:'Purpose, development and contact'},words:'عن المنصة guide iset rayen jridi تطوير صيانة contact تواصل'}
 ];
 const labels={ar:{home:'الرئيسية',about:'من نحن؟',iset:'ISET بنزرت',registration:'الترسيم',scholarship:'المنحة',housing:'السكن',restaurant:'الريستو',title:'البحث في الدليل',placeholder:'ابحث عن الترسيم، المبيت، المنحة، الريستو...',empty:'ما لقيناش نتيجة مطابقة.',hint:'جرّب كلمات مثل: ترسيم، مبيت، منحة، ريستو',results:'نتائج البحث'},fr:{home:'Accueil',about:'À propos',iset:'ISET Bizerte',registration:'Inscription',scholarship:'Bourse',housing:'Logement',restaurant:'Restaurant',title:'Rechercher dans le guide',placeholder:'Rechercher inscription, logement, bourse, restaurant...',empty:'Aucun résultat correspondant.',hint:'Essayez : inscription, logement, bourse, restaurant',results:'Résultats'},en:{home:'Home',about:'About us',iset:'ISET Bizerte',registration:'Registration',scholarship:'Scholarship',housing:'Housing',restaurant:'Restaurant',title:'Search the guide',placeholder:'Search registration, housing, scholarship, restaurant...',empty:'No matching result.',hint:'Try: registration, housing, scholarship, restaurant',results:'Results'}};
-function currentLang(){return localStorage.getItem('ugte-lang')||document.documentElement.lang||'ar'}
+function currentLang(){return 'ar'}
 function t(k){return (labels[currentLang()]||labels.ar)[k]||k}
 function setupNav(){
  document.querySelectorAll('.main-nav a[data-page]').forEach(a=>{if(a.dataset.page===document.body.dataset.page)a.classList.add('active')});
