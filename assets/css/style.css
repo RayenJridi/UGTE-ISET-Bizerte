@@ -178,3 +178,24 @@ html[data-theme="dark"] .delegate-card,html[data-theme="dark"] .contact-note{bac
 /* ===== Dedication page v17 ===== */
 .dedication-hero{text-align:center;overflow:hidden}.dedication-hero .breadcrumb{text-align:right}.dedication-mark{width:82px;height:82px;margin:8px auto 18px;border-radius:26px;display:grid;place-items:center;font-size:42px;background:rgba(255,255,255,.72);border:1px solid rgba(0,0,0,.07);box-shadow:0 18px 45px rgba(0,0,0,.08)}
 .dedication-card{position:relative;overflow:hidden;max-width:880px;margin:0 auto;padding:clamp(28px,5vw,56px);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(248,249,252,.95));border:1px solid rgba(0,0,0,.07);box-shadow:0 24px 70px rgba(0,0,0,.10);text-align:center}.dedication-card .kicker{position:relative}.dedication-card h2{position:relative;font-size:clamp(28px,4vw,42px);margin:10px 0 24px}.dedication-card p{position:relative;max-width:720px;margin:0 auto 20px;font-size:clamp(16px,2vw,19px);line-height:2}.dedication-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,80,110,.09);filter:blur(12px);top:-150px;left:-100px}.dedication-divider{position:relative;margin:25px auto;color:#d54a68;font-size:24px}.dedication-final{position:relative;margin:28px auto 22px;padding:18px 20px;border-radius:18px;background:rgba(0,0,0,.035);font-weight:800;font-size:clamp(17px,2.2vw,21px)}.dedication-mentions{position:relative;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}.dedication-mentions span{padding:10px 16px;border-radius:999px;background:rgba(0,0,0,.045);font-weight:700}.dark .dedication-mark,.dark .dedication-card{background:linear-gradient(145deg,rgba(25,27,34,.98),rgba(18,20,26,.96));border-color:rgba(255,255,255,.08);box-shadow:0 24px 70px rgba(0,0,0,.28)}.dark .dedication-final,.dark .dedication-mentions span{background:rgba(255,255,255,.06)}
+
+/* V18 — departments & specialties */
+.specialty-grid{align-items:stretch}
+.specialty-card{display:flex;flex-direction:column;gap:14px}
+.specialty-title{display:flex;align-items:center;gap:12px}
+.specialty-title h3{margin:0}
+.specialty-title small{display:block;margin-top:3px;opacity:.68;font-size:.84rem}
+.specialty-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:rgba(30,92,180,.10);font-size:1.35rem;flex:0 0 46px}
+.specialty-list{margin:0;padding-inline-start:22px;display:grid;gap:8px;line-height:1.6}
+.specialty-list li::marker{font-weight:700}
+.specialty-list.numbered{padding-inline-start:25px}
+@media(max-width:640px){.specialty-card{padding:18px}.specialty-icon{width:42px;height:42px;flex-basis:42px}.specialty-list{font-size:.93rem}}
+
+/* ISET Bizerte photo gallery - image only, no captions */
+.iset-photo-gallery{display:grid;grid-template-columns:1.45fr 1fr 1fr;gap:14px;align-items:stretch}
+.iset-photo-gallery>div{margin:0;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
+.iset-photo-gallery img{display:block;width:100%;height:100%;min-height:250px;object-fit:cover;transition:transform .35s ease}
+.iset-photo-gallery>div:first-child img{min-height:330px}
+.iset-photo-gallery>div:hover img{transform:scale(1.025)}
+@media(max-width:900px){.iset-photo-gallery{grid-template-columns:1fr 1fr}.iset-photo-gallery>div:first-child{grid-column:1/-1}.iset-photo-gallery>div:first-child img{min-height:300px}}
+@media(max-width:620px){.iset-photo-gallery{grid-template-columns:1fr}.iset-photo-gallery>div:first-child{grid-column:auto}.iset-photo-gallery img,.iset-photo-gallery>div:first-child img{height:250px;min-height:250px}}
